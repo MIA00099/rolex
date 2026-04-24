@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Now Now - Gourmet Rolex</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Yellowtail&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="preload" as="image" href="g (2).png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#72111A',
+                            yellow: '#FDBA12',
+                            dark: '#5a0d14',
+                            darker: '#3e080e'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        grunge: ['Permanent Marker', 'cursive'],
+                        script: ['Yellowtail', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .brush-circle {
+            background-image: radial-gradient(circle, #FDBA12 60%, transparent 65%);
+            border-radius: 50%;
+            box-shadow: 0 0 0 15px rgba(253, 186, 18, 0.2), 0 0 0 30px rgba(253, 186, 18, 0.05);
+        }
+        
+        /* Simple fade-in animation to mimic React render transitions */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen font-sans selection:bg-brand-yellow selection:text-brand-red bg-brand-red text-white flex flex-col">
+
+    <nav class="absolute w-full z-50 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+            <div class="flex justify-between items-center h-24">
+                
+                <div onclick="navigateTo('home')" class="flex-shrink-0 flex items-center cursor-pointer group">
+                    <svg class="w-8 h-8 text-brand-yellow group-hover:rotate-90 transition-transform duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-18a8 8 0 1 0 0 16 8 8 0 0 0 0-16z"/>
+                        <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
+                        <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                    </svg>
+                    <span class="text-white font-black text-2xl tracking-widest uppercase ml-3 font-sans">Now Now</span>
+                </div>
+
+                <div class="hidden md:flex space-x-10 items-center">
+                    <button data-page="home" onclick="navigateTo('home')" class="desktop-nav-btn text-sm font-bold uppercase tracking-widest transition-colors text-brand-yellow border-b-2 border-brand-yellow pb-1">
+                        Home
+                    </button>
+                    <button data-page="menu" onclick="navigateTo('menu')" class="desktop-nav-btn text-sm font-bold uppercase tracking-widest transition-colors text-white hover:text-brand-yellow">
+                        Menu
+                    </button>
+                    <button data-page="gallery" onclick="navigateTo('gallery')" class="desktop-nav-btn text-sm font-bold uppercase tracking-widest transition-colors text-white hover:text-brand-yellow">
+                        Gallery
+                    </button>
+                    <button data-page="about" onclick="navigateTo('about')" class="desktop-nav-btn text-sm font-bold uppercase tracking-widest transition-colors text-white hover:text-brand-yellow">
+                        About Us
+                    </button>
+                </div>
+
+                <div class="md:hidden flex items-center space-x-6">
+                    <button onclick="toggleMobileMenu()" class="text-white hover:text-brand-yellow transition-colors">
+                        <i data-lucide="menu" class="w-7 h-7"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-dark px-4 pt-2 pb-4 space-y-1 shadow-2xl absolute w-full z-50 border-b border-brand-yellow/20">
+            <button onclick="navigateTo('home')" class="block w-full text-left px-3 py-4 text-sm font-bold text-white uppercase tracking-widest border-b border-white/10 hover:text-brand-yellow">Home</button>
+            <button onclick="navigateTo('menu')" class="block w-full text-left px-3 py-4 text-sm font-bold text-white uppercase tracking-widest border-b border-white/10 hover:text-brand-yellow">Menu</button>
+            <button onclick="navigateTo('gallery')" class="block w-full text-left px-3 py-4 text-sm font-bold text-white uppercase tracking-widest border-b border-white/10 hover:text-brand-yellow">Gallery</button>
+            <button onclick="navigateTo('about')" class="block w-full text-left px-3 py-4 text-sm font-bold text-white uppercase tracking-widest hover:text-brand-yellow">About Us</button>
+        </div>
+    </nav>
+
+    <main class="flex-1">
+        
+        <div id="view-home" class="fade-in block">
+            <div class="relative pt-32 pb-16 md:pt-40 md:pb-24 min-h-[90vh] flex items-center overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10 w-full">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="order-2 md:order-1 text-left z-20 mt-10 md:mt-0">
+                            <h2 class="text-brand-yellow font-black tracking-widest uppercase text-sm md:text-lg mb-2 flex items-center">
+                                Taste the Pride of Kigali
+                            </h2>
+                            <div class="relative mb-12">
+                                <h1 class="text-7xl md:text-[8rem] font-grunge text-white leading-none tracking-wide drop-shadow-lg">
+                                    GOURMET
+                                </h1>
+                                <h1 class="text-6xl md:text-[6rem] font-script text-brand-yellow absolute -bottom-10 left-10 md:left-20 transform -rotate-6 drop-shadow-xl">
+                                    Rolex
+                                </h1>
+                            </div>
+                            <div class="flex items-center gap-6 mt-16">
+                                <button onclick="navigateTo('menu')" class="bg-brand-yellow text-brand-red font-bold px-8 py-3 md:px-10 md:py-4 rounded-sm hover:bg-white transition-colors uppercase tracking-widest">
+                                    View Menu
+                                </button>
+                            </div>
+                            <div class="hidden md:flex items-center mt-24 space-x-4 opacity-70">
+                                <span class="text-xs font-bold uppercase tracking-widest mr-4">Follow Us</span>
+                                <div class="w-12 h-px bg-white/50 mr-4"></div>
+                                <i data-lucide="facebook" class="w-4 h-4 cursor-pointer hover:text-brand-yellow transition-colors"></i>
+                                <i data-lucide="instagram" class="w-4 h-4 cursor-pointer hover:text-brand-yellow transition-colors"></i>
+                                <i data-lucide="twitter" class="w-4 h-4 cursor-pointer hover:text-brand-yellow transition-colors"></i>
+                            </div>
+                        </div>
+                        <div class="order-1 md:order-2 relative flex justify-center items-center h-[300px] md:h-[600px]">
+                            <div class="absolute w-[280px] h-[280px] md:w-[500px] md:h-[500px] bg-brand-yellow rounded-full z-0 transform translate-x-10 scale-y-105 opacity-90 brush-circle"></div>
+                            <img src="g (2).png" onerror="this.src='https://images.unsplash.com/photo-1626700051175-6818013e1d4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'" alt="Gourmet Wrap" class="relative z-10 w-[240px] h-[240px] md:w-[450px] md:h-[450px] object-cover rounded-full shadow-2xl border-4 border-[#72111A]/20" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-brand-dark py-24 border-t border-white/5">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+                    <div class="text-center mb-16">
+                        <h2 class="text-5xl font-grunge text-white mb-4">The Vibe</h2>
+                        <p class="text-white/70 max-w-2xl mx-auto">Vibrant, open-air, and always alive. Experience the best street food and craft cocktails in Kimihurura.</p>
+                    </div>
+                    
+                    <div id="home-gallery-container" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 auto-rows-[200px] md:auto-rows-[280px]">
+                        </div>
+
+                    <div class="mt-12 text-center">
+                        <button onclick="navigateTo('gallery')" class="inline-flex items-center text-brand-yellow font-bold uppercase tracking-widest hover:text-white transition-colors">
+                            <i data-lucide="image" class="mr-2 w-5 h-5"></i> View Full Gallery
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-menu" class="hidden fade-in bg-brand-dark pt-32 pb-24 min-h-screen">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-grunge text-white mb-6 md:mb-0">Our Menu</h2>
+                    <div id="category-tabs" class="flex overflow-x-auto hide-scrollbar space-x-2 md:space-x-4 w-full md:w-auto pb-4 md:pb-0">
+                        </div>
+                </div>
+                <div id="menu-items" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    </div>
+            </div>
+        </div>
+
+        <div id="view-gallery" class="hidden fade-in bg-brand-dark pt-32 pb-24 min-h-screen">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-grunge text-white mb-4">Gallery</h2>
+                    <p class="text-white/70 max-w-2xl mx-auto">A full look into our food, drinks, and the vibrant atmosphere at Now Now Rolex.</p>
+                </div>
+                <div id="full-gallery-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                    </div>
+            </div>
+        </div>
+
+        <div id="view-about" class="hidden fade-in bg-brand-dark pt-32 pb-24 min-h-screen">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-grunge text-white mb-4">Find Us</h2>
+                    <p class="text-white/70 max-w-2xl mx-auto">Drop by for a bite or send us a message. We're right in the heart of the city.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12 items-start">
+                    <div class="space-y-8">
+                        <div class="bg-brand-red rounded-xl p-8 border border-white/10">
+                            <h3 class="text-2xl font-black uppercase text-white mb-6 border-b border-white/10 pb-4">Information</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-start">
+                                    <i data-lucide="map-pin" class="text-brand-yellow mr-4 mt-1 flex-shrink-0 w-6 h-6"></i>
+                                    <div>
+                                        <h4 class="text-white font-bold uppercase tracking-widest text-sm mb-1">Location</h4>
+                                        <p class="text-white/70 text-sm">2 KG 2 Ave, Kigali<br/>Kimihurura, Rwanda</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i data-lucide="clock" class="text-brand-yellow mr-4 mt-1 flex-shrink-0 w-6 h-6"></i>
+                                    <div>
+                                        <h4 class="text-white font-bold uppercase tracking-widest text-sm mb-1">Opening Hours</h4>
+                                        <ul class="text-white/70 text-sm space-y-1">
+                                            <li>Mon-Wed: 9:00 AM - 11:00 PM</li>
+                                            <li class="font-bold text-white">Thu-Sat: 9:00 AM - 2:00 AM</li>
+                                            <li>Sun: 8:00 AM - 11:00 PM</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i data-lucide="phone" class="text-brand-yellow mr-4 mt-1 flex-shrink-0 w-6 h-6"></i>
+                                    <div>
+                                        <h4 class="text-white font-bold uppercase tracking-widest text-sm mb-1">Phone</h4>
+                                        <p class="text-white/70 text-sm">+250 780 000 000</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-[300px] bg-brand-darker rounded-xl overflow-hidden border border-white/10">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15950.046187978931!2d30.0886862!3d-1.9515918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca6850c95e1e7%3A0xc3b5e40702cae142!2sKimihurura%2C%20Kigali%2C%20Rwanda!5e0!3m2!1sen!2sus!4v1690000000000!5m2!1sen!2sus" 
+                                width="100%" height="100%" style="border: 0;" 
+                                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                                title="Google Maps Location">
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-red rounded-xl p-8 border border-white/10">
+                        <h3 class="text-2xl font-black uppercase text-white mb-6 border-b border-white/10 pb-4 flex items-center">
+                            <i data-lucide="mail" class="mr-3 text-brand-yellow w-6 h-6"></i> Send a Message
+                        </h3>
+                        <form class="space-y-5" onsubmit="event.preventDefault()">
+                            <div>
+                                <label class="block text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Your Name</label>
+                                <input type="text" placeholder="John Doe" class="w-full bg-brand-darker text-white border border-white/10 p-4 rounded-lg focus:outline-none focus:border-brand-yellow transition-colors" />
+                            </div>
+                            <div>
+                                <label class="block text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Email Address</label>
+                                <input type="email" placeholder="john@example.com" class="w-full bg-brand-darker text-white border border-white/10 p-4 rounded-lg focus:outline-none focus:border-brand-yellow transition-colors" />
+                            </div>
+                            <div>
+                                <label class="block text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Message</label>
+                                <textarea placeholder="How can we help you?" rows="5" class="w-full bg-brand-darker text-white border border-white/10 p-4 rounded-lg focus:outline-none focus:border-brand-yellow transition-colors resize-none"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-brand-yellow text-brand-red font-black uppercase tracking-widest px-6 py-4 rounded-lg flex items-center justify-center hover:bg-white transition-colors">
+                                <i data-lucide="send" class="mr-2 w-5 h-5"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-brand-darker py-16 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 grid md:grid-cols-3 gap-12">
+            <div>
+                <div class="flex items-center mb-6 cursor-pointer" onclick="navigateTo('home')">
+                    <svg class="w-6 h-6 text-brand-yellow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-18a8 8 0 1 0 0 16 8 8 0 0 0 0-16z"/>
+                        <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
+                        <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                    </svg>
+                    <span class="text-white font-black text-xl tracking-widest uppercase ml-3">Now Now</span>
+                </div>
+                <p class="text-white/60 text-sm leading-relaxed max-w-xs">
+                    Elevated Ugandan street food, fresh salads, and craft cocktails in the heart of Kimihurura.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-brand-yellow font-bold mb-6 uppercase tracking-widest flex items-center">
+                    <i data-lucide="map-pin" class="mr-2 w-4 h-4"></i> Location
+                </h4>
+                <p class="text-white/80 text-sm">
+                    2 KG 2 Ave, Kigali<br/>Rwanda
+                </p>
+            </div>
+            <div>
+                <h4 class="text-brand-yellow font-bold mb-6 uppercase tracking-widest flex items-center">
+                    <i data-lucide="phone" class="mr-2 w-4 h-4"></i> Contact
+                </h4>
+                <p class="text-white/80 text-sm mb-3">+250 780 458 158</p>
+                <div class="flex space-x-4">
+                    <i data-lucide="facebook" class="text-white/60 hover:text-brand-yellow cursor-pointer transition-colors w-5 h-5"></i>
+                    <i data-lucide="instagram" class="text-white/60 hover:text-brand-yellow cursor-pointer transition-colors w-5 h-5"></i>
+                    <i data-lucide="twitter" class="text-white/60 hover:text-brand-yellow cursor-pointer transition-colors w-5 h-5"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Fallback images in case local files aren't found
+        const fallbackImg = "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+
+        // --- DATA ---
+        const menuData = {
+          "Snacks & Starters": [
+            { name: "FRIES", desc: "Crispy fries seasoned & twice-fried w/ ketchup & mayo.", price: 3000 },
+            { name: "CHIPS & DIP", desc: "Crispy chapati chips, guacamole & fresh salsa.", price: 3500 },
+            { name: "CHILI FRIES BEEF", desc: "Fries, Texas chilli(beef), tomato, gouda cheese, guacamole.", price: 7500 },
+            { name: "CHILI FRIES CHICKEN", desc: "Fries, fajita (chicken), tomato, gouda cheese & guacamole.", price: 8500 },
+            { name: "PAPA'S TEXAS CHILI", desc: "Ground beef, green peppers, tomatoes, onion, spices, topped with cheese & diced onions.", price: 6000 },
+            { name: "NACHOS", desc: "Cheese, crispy chapati, guacamole, onions, and tomatoes", price: 6500 },
+            { name: "NACHOS BEEF", desc: "Chili (beef), gouda cheese, tomato, salsa & guacamole.", price: 7500 },
+            { name: "NACHOS CHICKEN", desc: "", price: 8500 },
+            { name: "SAMOSAS Rwandan", desc: "(potato & onion)", price: 2500 },
+            { name: "SAMOSAS Mexican", desc: "(beef chili)", price: 4000 },
+            { name: "SIDE GREEN SALAD", desc: "Lettuce, tomato, avocado & cucumber.", price: 2500 },
+            { name: "TROPICAL FRUIT SALAD", desc: "Fresh & seasonal fruit mix.", price: 2500 },
+          ],
+          "Gourmet Rolex": [
+            { name: "THE UGANDAN", desc: "Tomato, cabbage & onion.", price: 4000 },
+            { name: "THE RWANDAN", desc: "Marinated fajita chicken, cheese, tomato, Onion, guacamole", price: 5000 },
+            { name: "THE MEXICAN", desc: "", price: 6000 },
+            { name: "THE ITALIAN", desc: "Mozzarella, tomato, basil & balsamic.", price: 6500 },
+            { name: "THE FRENCH", desc: "Brie cheese, Caramelized onion, Honey, Black Pepper, Spinach", price: 6000 },
+            { name: "THE GREEK", desc: "Feta cheese, Spinach, Tomato, Balsamic", price: 5500 },
+            { name: "THE GOAT CHEESE", desc: "Goat cheese, Lettuce, watermelon, beetroot, cucumber, mint, parsley, onion, chapati chips & honey balsamic vinaigrette.", price: 5500 },
+            { name: "THE BACON CHEDDAR", desc: "Cheddar cheese, Crispy Bacon, and tomato", price: 7500 },
+            { name: "THE TEXAN", desc: "BBQ Chicken, Cheese, Tomato, Caramelized Onion, Spinach", price: 6500 },
+            { name: "THE KOREAN", desc: "Soy Sauce & Ginger marinated minced beef, Kimchi, Siluered carrots & cucumber, Doenjang (Soybean paste)", price: 6500 },
+          ],
+          "Health Wraps": [
+            { name: "BBQ CHICKEN", desc: "BBQ chicken with homemade sauce, melted cheese, tomato, spinach & caramelized onion.", price: 7500 },
+            { name: "FETA & AVOCADO", desc: "Spinach, lettuce, feta, olives, tomato, avocado, cucumber & creamy Greek dressing.", price: 7000 },
+            { name: "TEX MEX CHICKEN", desc: "Tex Mex style chicken wrap.", price: 7500 },
+          ],
+          "Salads": [
+            { name: "GREEK", desc: "Lettuce, feta, olives, plum tomatoes, cucumber, onion, parsley, chapati chips & mediterranean citrus dressing.", price: 7500 },
+            { name: "ASIAN", desc: "Soya beans, peanuts, avocado, carrot, green beans, Cchapati chips, shredded cabbage & Korean soy-ginger dressing.", price: 8000 },
+            { name: "TEX-MEX", desc: "Lettuce, cherry tomatoes, avocado, bell pepper, sweet corn. chapati chips & coriander fajita dressing.", price: 8000 },
+            { name: "GOAT CHEESE", desc: "", price: 8000 },
+          ],
+          "Extras": [
+            { name: "Crispy tofu", desc: "", price: 2500 },
+            { name: "Spiced minsed meat", desc: "", price: 3000 },
+            { name: "Chicken (fajita or Korean)", desc: "", price: 4000 },
+            { name: "Bacon", desc: "", price: 4000 },
+            { name: "Brie, feta, cheddar or goat cheese", desc: "", price: 3000 },
+            { name: "Local gouda cheese", desc: "", price: 2500 },
+          ],
+          "Fresh Juice": [
+            { name: "TANGAWIZI ISHYUSHYE (OR IKONJE)", desc: "Fresh ginger juice, honey, lemon, mint. Served hot or cold", price: 3000 },
+            { name: "PINEAPPLE GINGER", desc: "Fresh pineapple and ginger juice, lemon", price: 3500 },
+            { name: "SUGAR CANE AND GINGER", desc: "", price: 3500 },
+            { name: "WATERMELON JUICE", desc: "", price: 3000 },
+            { name: "WATERMELON LEMONADE", desc: "Watermelon, lemon, simple syrup", price: 4000 },
+            { name: "PASSION FRUIT w/SUGAR", desc: "", price: 4000 },
+            { name: "PINEAPPLE", desc: "", price: 4000 },
+            { name: "TROPICAL MIX", desc: "Blend of seasonally available fruites", price: 5000 },
+            { name: "KIGALI SUNRISE", desc: "Pineapple. passion fruit & tree tomato", price: 5000 },
+          ],
+          "Soft Drinks": [
+            { name: "VIRUNGA SPARKLING WATER", desc: "", price: 1500 },
+            { name: "PANACHÉ", desc: "", price: 1500 },
+            { name: "MALTONA", desc: "", price: 1500 },
+            { name: "SODA (glass)", desc: "", price: 1500 },
+            { name: "SODA (plastic)", desc: "", price: 2000 },
+            { name: "JUICES (plastic)", desc: "", price: 1500 },
+            { name: "RED BULL", desc: "", price: 5000 },
+          ],
+          "Craft Cocktails": [
+            { name: "RWANDAN G&T", desc: "Gin, Tree Tomato, Fresh Mint, Tonic", price: 6000 },
+            { name: "CLASSIC G&T", desc: "Gin, Tonic, garnished with Lemon", price: 6000 },
+            { name: "JINJA GINGER", desc: "Gin, Ginger juice, Lemon, Mint, Honey", price: 6000 },
+            { name: "PASSION WHISKEY SOUR", desc: "Nelson whiskey, Passion Fruit juice, Lemon juice, Ginger juice", price: 7000 },
+            { name: "SOURCE OF THE NILE", desc: "Nelson whiskey, Ginger juice, Honey, Sugercane juice, Lemon, Mint", price: 7000 },
+            { name: "KIVU COFFEE MARTINI", desc: "Nelson whiskey, Amarula cream, Cold Brew, Chocolate Syrup", price: 8000 },
+            { name: "Ssese Island Iced Tea", desc: "Tequila, Vodka, Rum, Gin, Orange juice, Lemon & Sugarcane juice,", price: 10000 },
+            { name: "CLASSIC MOJITO", desc: "White rum, Mints, Lemon, Syrup, Sparkling water", price: 6000 },
+            { name: "PINEAPPLE MOJITO", desc: "White rum, Pineapple, Mint, Lemon juice, Syrup, Sparkling water", price: 7000 },
+            { name: "NAAJA STRAWBERRY MOJITO", desc: "White rum, Strawberry, Basil, Lemon syrup, Sparkling water", price: 7000 },
+            { name: "ZANZIBAR MARGARITA", desc: "Tequila, Vodka, Orange juice, Pineapple", price: 8000 },
+            { name: "MANGO MARGARITA", desc: "Tequila, Vodka, Mango fruit, cinnamon syrup, Lemon & Orange juice", price: 8000 },
+            { name: "KALAHARI SUNRISE", desc: "Tequila, Watermelon juice, Lemon, Mint, Honey", price: 8000 },
+            { name: "DAWA YA MOTO", desc: "Tequila, Lemon Juice, Chili sauce, Honey", price: 8000 },
+            { name: "PILI PILI PINEAPPLE", desc: "vodka, Pineapple juice, Cinnamon syrup, Lemon juice, chili sauce", price: 6000 },
+            { name: "MWIRIWE MULE", desc: "Vodka, Ginger juice, Sprite soda, Lemon", price: 7000 },
+            { name: "ITUNDA MARTINI", desc: "Vodka, Passion fruit, syrup, lemon juice", price: 7000 },
+            { name: "KENYAN DAWA", desc: "Vodka, Lemon, Honey, Brown Sugar", price: 6000 },
+          ],
+          "Smoothies": [
+            { name: "THOUSAND HILLS", desc: "Strawberry, Tree Tomato, Mango and Banana", price: 5000 },
+            { name: "CLASSIC SMOOTHIE", desc: "Mango, MIilk, Banana, Peanut butter, Cinammon.", price: 6000 },
+            { name: "ENERGY BOOSTER", desc: "Mango, Tree Tomato, Watermelon and Ginger.", price: 5000 },
+          ]
+        };
+
+        const homeGalleryImages = [
+          "g (10).png",
+          "g (2).png",
+          "g (3).png",
+          "g (4).png",
+          "g (5).png",
+          "g (6).png"
+        ];
+
+        const fullGalleryImages = [
+          "f (1).jpg",
+          "g (2).png",
+          "g (3).png",
+          "g (4).png",
+          "g (5).png",
+          "g (6).png",
+          "g (7).png",
+          "g (8).png",
+          "g (9).png",
+          "g (10).png",
+          "1776975307594.png", 
+          "f (2).jpg" 
+        ];
+
+        // --- STATE ---
+        let activeCategory = Object.keys(menuData)[0];
+        const formatPrice = (price) => `RWF ${price.toLocaleString()}`;
+
+        // --- ROUTING & UI TOGGLES ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function navigateTo(page) {
+            // Hide Mobile Menu
+            document.getElementById('mobile-menu').classList.add('hidden');
+            
+            // Hide all views
+            ['home', 'menu', 'gallery', 'about'].forEach(v => {
+                document.getElementById(`view-${v}`).classList.add('hidden');
+                document.getElementById(`view-${v}`).classList.remove('block');
+            });
+            
+            // Show target view
+            const activeView = document.getElementById(`view-${page}`);
+            activeView.classList.remove('hidden');
+            activeView.classList.add('block');
+
+            // Reset animation to ensure it fades in again
+            activeView.classList.remove('fade-in');
+            void activeView.offsetWidth; // trigger reflow
+            activeView.classList.add('fade-in');
+            
+            // Update Desktop Nav Active States
+            document.querySelectorAll('.desktop-nav-btn').forEach(btn => {
+                if(btn.dataset.page === page) {
+                    btn.classList.add('text-brand-yellow', 'border-b-2', 'border-brand-yellow', 'pb-1');
+                    btn.classList.remove('text-white', 'hover:text-brand-yellow');
+                } else {
+                    btn.classList.remove('text-brand-yellow', 'border-b-2', 'border-brand-yellow', 'pb-1');
+                    btn.classList.add('text-white', 'hover:text-brand-yellow');
+                }
+            });
+
+            window.scrollTo(0, 0);
+        }
+
+        // --- RENDER FUNCTIONS ---
+        function renderHomeGallery() {
+            const container = document.getElementById('home-gallery-container');
+            container.innerHTML = homeGalleryImages.map((img, idx) => {
+                let spanClasses = "";
+                if (idx === 0) spanClasses = "col-span-2 row-span-2"; 
+                else if (idx === 5) spanClasses = "col-span-2 md:col-span-1 row-span-1"; 
+                else spanClasses = "col-span-1 row-span-1"; 
+
+                return `
+                <div class="relative overflow-hidden rounded-2xl border-2 border-transparent hover:border-brand-yellow/80 shadow-2xl transition-all duration-500 group cursor-pointer ${spanClasses}">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
+                    <img src="${img}" loading="lazy" onerror="this.src='${fallbackImg}'" alt="Now Now Gallery ${idx + 1}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                </div>
+                `;
+            }).join('');
+        }
+
+        function renderFullGallery() {
+            const container = document.getElementById('full-gallery-container');
+            container.innerHTML = fullGalleryImages.map((img, idx) => `
+                <div class="relative aspect-square overflow-hidden rounded-xl border border-white/10 hover:border-brand-yellow/80 shadow-lg transition-all duration-500 group cursor-pointer">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 flex flex-col justify-end p-4">
+                        <span class="text-white font-bold tracking-widest uppercase text-xs">Now Now Vibe</span>
+                    </div>
+                    <img src="${img}" loading="lazy" onerror="this.src='${fallbackImg}'" alt="Now Now Gallery ${idx + 1}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                </div>
+            `).join('');
+        }
+
+        function setCategory(category) {
+            activeCategory = category;
+            renderMenuTabs();
+            renderMenuItems();
+        }
+
+        function renderMenuTabs() {
+            const container = document.getElementById('category-tabs');
+            container.innerHTML = Object.keys(menuData).map(category => {
+                const isActive = activeCategory === category;
+                const classes = isActive 
+                    ? 'bg-brand-yellow text-brand-red' 
+                    : 'border border-white/20 text-white hover:border-brand-yellow';
+                return `<button onclick="setCategory('${category}')" class="whitespace-nowrap px-6 py-2 rounded-full font-bold text-sm transition-all flex-shrink-0 uppercase tracking-wider ${classes}">${category}</button>`;
+            }).join('');
+        }
+
+        function renderMenuItems() {
+            const container = document.getElementById('menu-items');
+            container.innerHTML = menuData[activeCategory].map(item => `
+                <div class="bg-brand-red rounded-xl p-6 hover:shadow-[0_0_20px_rgba(253,186,18,0.15)] transition-all flex flex-col border border-transparent hover:border-brand-yellow/30">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-lg font-black uppercase tracking-wide text-white pr-4 leading-tight">${item.name}</h3>
+                        <span class="text-brand-yellow font-bold whitespace-nowrap">${formatPrice(item.price)}</span>
+                    </div>
+                    ${item.desc ? `<p class="text-white/70 text-sm leading-relaxed mt-1">${item.desc}</p>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            renderHomeGallery();
+            renderFullGallery();
+            renderMenuTabs();
+            renderMenuItems();
+        });
+    </script>
+</body>
+</html>
