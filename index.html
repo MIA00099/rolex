@@ -161,14 +161,14 @@
         </div>
 
         <div id="view-menu" class="hidden fade-in bg-brand-dark pt-32 pb-24 min-h-screen">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-                <div class="flex flex-col md:flex-row justify-between items-center mb-12">
-                    <h2 class="text-4xl md:text-5xl font-grunge text-white mb-6 md:mb-0">Our Menu</h2>
-                    <div id="category-tabs" class="flex overflow-x-auto hide-scrollbar space-x-2 md:space-x-4 w-full md:w-auto pb-4 md:pb-0">
-                        </div>
-                </div>
-                <div id="menu-items" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    </div>
+            <div class="max-w-6xl mx-auto px-3 sm:px-6 lg:px-10">
+                <div class="text-center mb-8"><p class="text-brand-yellow text-xs font-bold uppercase tracking-[0.35em] mb-3">Now Now · Kigali</p><h2 class="text-5xl md:text-6xl font-grunge text-white">Our Menu</h2></div>
+                <div id="category-tabs" class="flex overflow-x-auto hide-scrollbar gap-2 w-full pb-5 justify-start md:justify-center"></div>
+                <section class="menu-paper rounded-sm px-7 py-10 sm:px-10 md:px-14 md:py-14">
+                    <div class="relative z-10 text-center border-b border-brand-red/20 pb-7 mb-3"><div class="text-brand-red font-black tracking-[0.3em] uppercase text-xs mb-2">Now Now</div><div id="menu-category-heading" class="menu-category-title text-2xl sm:text-3xl md:text-4xl font-bold uppercase text-brand-red"></div><div class="mt-3 text-[10px] sm:text-xs uppercase tracking-[0.22em] text-stone-500">Gourmet street food · Kigali, Rwanda</div></div>
+                    <div id="menu-items" class="relative z-10 max-w-4xl mx-auto"></div>
+                    <div class="relative z-10 mt-10 pt-5 border-t border-brand-red/20 text-center"><p class="text-[10px] sm:text-xs uppercase tracking-[0.18em] text-stone-500">Prices in Rwandan Francs · Ask our team about today's availability</p></div>
+                </section>
             </div>
         </div>
 
@@ -512,15 +512,18 @@
 
         function renderMenuItems() {
             const container = document.getElementById('menu-items');
+            const heading = document.getElementById('menu-category-heading');
+            if (heading) heading.textContent = activeCategory;
             container.innerHTML = menuData[activeCategory].map(item => `
-                <div class="bg-brand-red rounded-xl p-6 hover:shadow-[0_0_20px_rgba(253,186,18,0.15)] transition-all flex flex-col border border-transparent hover:border-brand-yellow/30">
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="text-lg font-black uppercase tracking-wide text-white pr-4 leading-tight">${item.name}</h3>
-                        <span class="text-brand-yellow font-bold whitespace-nowrap">${formatPrice(item.price)}</span>
+                <article class="menu-row py-5 sm:py-6 first:pt-7">
+                    <div class="flex items-start gap-4 sm:gap-8">
+                        <div class="min-w-0 flex-1">
+                            <h3 class="text-[15px] sm:text-base font-black uppercase tracking-[0.06em] text-stone-900 leading-snug">${item.name}</h3>
+                            ${item.desc ? `<p class="text-stone-600 text-xs sm:text-sm leading-relaxed mt-1.5 max-w-2xl">${item.desc}</p>` : ''}
+                        </div>
+                        <span class="menu-price text-sm sm:text-base font-bold whitespace-nowrap pt-0.5">${item.price.toLocaleString()}</span>
                     </div>
-                    ${item.desc ? `<p class="text-white/70 text-sm leading-relaxed mt-1">${item.desc}</p>` : ''}
-                </div>
-            `).join('');
+                </article>`).join('');
         }
 
         // --- INITIALIZATION ---
